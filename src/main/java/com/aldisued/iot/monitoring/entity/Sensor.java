@@ -1,6 +1,7 @@
 package com.aldisued.iot.monitoring.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +15,8 @@ public class Sensor {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
+  @NotBlank
   private String name;
 
   @Column(nullable = false)

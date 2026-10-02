@@ -5,7 +5,6 @@ import com.aldisued.iot.monitoring.entity.Sensor;
 import com.aldisued.iot.monitoring.entity.SensorReading;
 import com.aldisued.iot.monitoring.repository.SensorReadingRepository;
 import com.aldisued.iot.monitoring.repository.SensorRepository;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 @Service
