@@ -1,5 +1,6 @@
 package com.aldisued.iot.monitoring.service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,10 +18,7 @@ public class MeasurementCalculatorService {
       return Collections.emptyList();
     }
 
-    double averageValue = values.stream()
-            .mapToDouble(Double::doubleValue)
-            .average()
-            .orElseThrow(IllegalArgumentException::new);
+    double averageValue = calculateAverage(values);
     double min = averageValue * (1.0 - deviation);
     double max = averageValue * (1.0 + deviation);
 
@@ -30,8 +28,28 @@ public class MeasurementCalculatorService {
   }
 
   public List<Double> getMovingAverage(List<Double> data, int windowSize) {
-    // TODO: Task 10
-    return List.of();
+    if (windowSize <= 0 || windowSize > data.size()) {
+      throw new IllegalArgumentException("Window size must be between 1 and the number of values");
+    }
+
+    List<Double> window = new ArrayList<>(data.subList(0, windowSize));
+    List<Double> movingAverages = new ArrayList<>();
+    movingAverages.add(calculateAverage(window));
+    
+    for (int i = windowSize; i < data.size(); i++) {
+      window.removeFirst();
+      window.add(data.get(i));
+      movingAverages.add(calculateAverage(window));
+    }
+
+    return movingAverages;
+  }
+
+  private double calculateAverage(List<Double> values) {
+    return values.stream()
+            .mapToDouble(Double::doubleValue)
+            .average()
+            .orElseThrow(IllegalArgumentException::new);
   }
 
 }
